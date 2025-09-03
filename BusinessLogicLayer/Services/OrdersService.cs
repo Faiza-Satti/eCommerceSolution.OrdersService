@@ -111,7 +111,7 @@ public class OrdersService : IOrdersService
         {
             foreach (OrderItemResponse orderItemResponse in addedOrderResponse.OrderItems)
             {
-                ProductDTO? productDTO = products.Where(temp => temp.ProductID == orderItemResponse.ProductID).FirstOrDefault();
+                ProductDTO? productDTO = products.Where(temp => temp.ProductID == orderItemResponse.ProductId).FirstOrDefault();
 
                 if (productDTO == null)
                     continue;
@@ -212,7 +212,7 @@ public class OrdersService : IOrdersService
         {
             foreach (OrderItemResponse orderItemResponse in updatedOrderResponse.OrderItems)
             {
-                ProductDTO? productDTO = products.Where(temp => temp.ProductID == orderItemResponse.ProductID).FirstOrDefault();
+                ProductDTO? productDTO = products.Where(temp => temp.ProductID == orderItemResponse.ProductId).FirstOrDefault();
 
                 if (productDTO == null)
                     continue;
@@ -265,7 +265,7 @@ public class OrdersService : IOrdersService
         {
             foreach (OrderItemResponse orderItemResponse in orderResponse.OrderItems)
             {
-                ProductDTO? productDTO = await _productsMicroserviceClient.GetProductByProductID(orderItemResponse.ProductID);
+                ProductDTO? productDTO = await _productsMicroserviceClient.GetProductByProductID(orderItemResponse.ProductId);
 
                 if (productDTO == null)
                     continue;
@@ -307,7 +307,7 @@ public class OrdersService : IOrdersService
 
             foreach (OrderItemResponse orderItemResponse in orderResponse.OrderItems)
             {
-                ProductDTO? productDTO = await _productsMicroserviceClient.GetProductByProductID(orderItemResponse.ProductID);
+                ProductDTO? productDTO = await _productsMicroserviceClient.GetProductByProductID(orderItemResponse.ProductId);
 
                 if (productDTO == null)
                     continue;
@@ -345,7 +345,7 @@ public class OrdersService : IOrdersService
 
             foreach (OrderItemResponse orderItemResponse in orderResponse.OrderItems)
             {
-                ProductDTO? productDTO = await _productsMicroserviceClient.GetProductByProductID(orderItemResponse.ProductID);
+                ProductDTO? productDTO = await _productsMicroserviceClient.GetProductByProductID(orderItemResponse.ProductId);
 
                 if (productDTO == null)
                     continue;

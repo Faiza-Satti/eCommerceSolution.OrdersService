@@ -43,7 +43,7 @@ services:
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=1234
    ports:
-    - "6000:8080"
+    - "6001:8080"
    networks:
     - products-postgres-network
     - ecommerce-network
@@ -78,7 +78,7 @@ services:
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=1234
    ports:
-    - "5000:9090"
+    - "5001:9090"
    networks:
     - users-postgres-network
     - ecommerce-network
