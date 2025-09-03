@@ -9,7 +9,9 @@ services:
      - MONGODB_PORT=27017
      - MONGODB_DATABASE=OrdersDatabase
      - UsersMicroserviceName=users-microservice
-     - UsersMicroservicePort=5000
+     - UsersMicroservicePort=9090
+     - ProductsMicroserviceName=products-microservice
+     - ProductsMicroservicePort=8080
     ports:
      - "7000:8080"
     networks:
@@ -37,9 +39,9 @@ services:
     - ASPNETCORE_ENVIRONMENT=Development
     - POSTGRES_HOST=products-postgres-container
     - POSTGRES_PORT=5432
-    - POSTGRES_DB=ecommerceproductsdatabase
+    - POSTGRES_DATABASE=ecommerceproductsdatabase
     - POSTGRES_USER=postgres
-    - POSTGRES_PASS=1234
+    - POSTGRES_PASSWORD=1234
    ports:
     - "6000:8080"
    networks:
@@ -55,9 +57,9 @@ services:
    environment:
     - POSTGRES_DB=ecommerceproductsdatabase
     - POSTGRES_USER=postgres
-    - POSTGRES_PASS=1234
+    - POSTGRES_PASSWORD=1234
    ports:
-    - "5433:5432"
+    - "5432:5432"
    volumes:
     - ../db_init_scripts/products-init:/docker-entrypoint-initdb.d
    networks:
@@ -76,7 +78,7 @@ services:
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=1234
    ports:
-    - "5000:8080"
+    - "5000:9090"
    networks:
     - users-postgres-network
     - ecommerce-network
@@ -89,9 +91,10 @@ services:
    environment:
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=1234
+    - POSTGRES_PORT=5432
     - POSTGRES_DB=eCommerceUsers
    ports:
-    - "5433:5432"
+    - "5434:5432"
    volumes:
     - ../db_init_scripts/postgres-init:/docker-entrypoint-initdb.d
    networks:
