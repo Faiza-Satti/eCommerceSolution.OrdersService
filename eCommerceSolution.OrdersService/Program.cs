@@ -37,28 +37,35 @@ builder.Services.AddHttpClient<UsersMicroserviceClient>(client =>
 {
     client.BaseAddress = new Uri($"http://{builder.Configuration["UsersMicroserviceName"]}:{builder.Configuration["UsersMicroservicePort"]}");
 }).AddPolicyHandler(
-    builder.Services.BuildServiceProvider().GetRequiredService<IUsersMicroservicePolicies>().GetRetryPolicy()
-  //Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
-  //.WaitAndRetryAsync(
-  //   retryCount: 5, //Number of retries
-  //   sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(2), // Delay between retries
-  //   onRetry: (outcome, timespan, retryAttempt, context) =>
-  //   {
-  //       //TO DO: add logs
-  //   })
-  )
-.AddPolicyHandler(
-   builder.Services.BuildServiceProvider().GetRequiredService<IUsersMicroservicePolicies>().GetCircuitBreakerPolicy()
-  )
-.AddPolicyHandler(
-   builder.Services.BuildServiceProvider().GetRequiredService<IUsersMicroservicePolicies>().GetTimeoutPolicy())
-    ;
+   builder.Services.BuildServiceProvider().GetRequiredService<IUsersMicroservicePolicies>().GetCombinedPolicy())
+   ;
+//  .AddPolicyHandler(
+//  builder.Services.BuildServiceProvider().GetRequiredService<IUsersMicroservicePolicies>().GetRetryPolicy()
+////Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+////.WaitAndRetryAsync(
+////   retryCount: 5, //Number of retries
+////   sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(2), // Delay between retries
+////   onRetry: (outcome, timespan, retryAttempt, context) =>
+////   {
+////       //TO DO: add logs
+////   })
+//)
+//.AddPolicyHandler(
+//   builder.Services.BuildServiceProvider().GetRequiredService<IUsersMicroservicePolicies>().GetCircuitBreakerPolicy()
+//  )
+//.AddPolicyHandler(
+//   builder.Services.BuildServiceProvider().GetRequiredService<IUsersMicroservicePolicies>().GetTimeoutPolicy())
+//    ;
 
 builder.Services.AddHttpClient<ProductsMicroserviceClient>(client => {
     client.BaseAddress = new Uri($"http://{builder.Configuration["ProductsMicroserviceName"]}:{builder.Configuration["ProductsMicroservicePort"]}");
 }).AddPolicyHandler(
    builder.Services.BuildServiceProvider().GetRequiredService<IProductsMicroservicePolicies>().GetFallbackPolicy()
-   );
+   )
+    .AddPolicyHandler(
+   builder.Services.BuildServiceProvider().GetRequiredService<IProductsMicroservicePolicies>().GetBulkheadIsolationPolicy())
+
+  ;
 
 var app = builder.Build();
 
